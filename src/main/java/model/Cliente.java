@@ -15,6 +15,14 @@ public class Cliente {
         this.email = email;
     }
 
+    public Cliente(String nombre, String direccion, String telefono, String email) {
+        this.id = id;
+        this.nombre = nombre;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.email = email;
+    }
+
     // Métodos getter y setter
     public int getId() {
         return id;
