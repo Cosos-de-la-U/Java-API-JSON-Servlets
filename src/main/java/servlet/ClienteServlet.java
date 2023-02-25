@@ -50,6 +50,12 @@ public class ClienteServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
 
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "GET");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With");
+        response.setHeader("Access-Control-Max-Age", "86400");
+        response.setHeader("Content-Type", "application/json");
+
         String idString = request.getParameter("id");
         if (idString != null) {
             // get the cliente with the specified id
@@ -99,15 +105,22 @@ public class ClienteServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "POST");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Max-Age", "86400");
+        response.setHeader("Content-Type", "application/json");
+
         JsonReader jsonReader = Json.createReader(request.getReader());
         JsonObject jsonObject = jsonReader.readObject();
         jsonReader.close();
 
         // extract the fields from the JSON object
-        String nombre = jsonObject.getString("fecha");
-        String direccion = jsonObject.getString("fecha");
+        String nombre = jsonObject.getString("nombre");
+        String direccion = jsonObject.getString("direccion");
         String telefono = jsonObject.getString("telefono");
-        String email = jsonObject.getString("estado");
+        String email = jsonObject.getString("email");
 
         // create the Cliente object
         Cliente cliente = new Cliente(nombre, direccion, telefono, email);
@@ -126,6 +139,12 @@ public class ClienteServlet extends HttpServlet {
     protected void doPut(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "PUT");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With");
+        response.setHeader("Access-Control-Max-Age", "86400");
+        response.setHeader("Content-Type", "application/json");
+
         // read the JSON payload from the request body
         JsonReader jsonReader = Json.createReader(request.getReader());
         JsonObject jsonObject = jsonReader.readObject();
@@ -134,10 +153,10 @@ public class ClienteServlet extends HttpServlet {
         // extract the fields from the JSON object
         int id = jsonObject.getInt("id");
         // extract the fields from the JSON object
-        String nombre = jsonObject.getString("fecha");
-        String direccion = jsonObject.getString("fecha");
+        String nombre = jsonObject.getString("nombre");
+        String direccion = jsonObject.getString("direccion");
         String telefono = jsonObject.getString("telefono");
-        String email = jsonObject.getString("estado");
+        String email = jsonObject.getString("email");
 
         // create the Cliente object
         Cliente cliente = new Cliente(id, nombre, direccion, telefono, email);
@@ -154,6 +173,12 @@ public class ClienteServlet extends HttpServlet {
 
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
+
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "DELETE");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With");
+        response.setHeader("Access-Control-Max-Age", "86400");
+        response.setHeader("Content-Type", "application/json");
 
         // Get the id parameter from the URL path
         String idParam = request.getParameter("id");
@@ -188,5 +213,7 @@ public class ClienteServlet extends HttpServlet {
         // Set the response status code to 204 No Content
         response.setStatus(HttpServletResponse.SC_NO_CONTENT);
     }
+
+
 
 }
