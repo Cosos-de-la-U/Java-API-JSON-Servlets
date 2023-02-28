@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Pedido;
+import model.viewModel.PedidoView;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,10 +19,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonReader;
+import javax.json.*;
 
 import static util.Conexion.getConexion;
 
@@ -59,12 +57,13 @@ public class PedidoServlet extends HttpServlet {
             // get the pedido with the specified id
             int id = Integer.parseInt(idString);
             try {
-                Pedido pedido = pedidoDao.buscarPorId(id);
+                PedidoView pedido = pedidoDao.buscarPorId(id);
                 if (pedido != null) {
                     JsonObjectBuilder builder = Json.createObjectBuilder();
                     builder.add("id", pedido.getId());
                     builder.add("idCliente", pedido.getIdCliente());
-                    builder.add("fecha", new SimpleDateFormat("MMM dd, yyyy").format(pedido.getFecha()));
+                    builder.add("nombre", pedido.getNombre());
+                    builder.add("fecha", new SimpleDateFormat("yyyy-MM-dd").format(pedido.getFecha()));
                     builder.add("total", pedido.getTotal());
                     builder.add("estado", pedido.getEstado());
                     JsonObject jsonObject = builder.build();
@@ -80,20 +79,25 @@ public class PedidoServlet extends HttpServlet {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
         } else {
-            // get all the pedido
             try {
-                // a different way to get the json and simpler TBH
-                List<Pedido> pedido = pedidoDao.listar();
-
-                Gson gson = new Gson();
-                String pedidoJSON = gson.toJson(pedido);
-
-                PrintWriter printWriter = response.getWriter();
+                List<PedidoView> pedidos = pedidoDao.listar();
+                JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+                for (PedidoView pedido : pedidos) {
+                    JsonObjectBuilder builder = Json.createObjectBuilder();
+                    builder.add("id", pedido.getId());
+                    builder.add("idCliente", pedido.getIdCliente());
+                    builder.add("nombre", pedido.getNombre());
+                    builder.add("fecha", new SimpleDateFormat("yyyy-MM-dd").format(pedido.getFecha()));
+                    builder.add("total", pedido.getTotal());
+                    builder.add("estado", pedido.getEstado());
+                    JsonObject jsonObject = builder.build();
+                    jsonArrayBuilder.add(jsonObject);
+                }
+                JsonArray jsonArray = jsonArrayBuilder.build();
                 response.setContentType("application/json");
-                response.setCharacterEncoding("UTF-8");
-                printWriter.write(pedidoJSON);
-                printWriter.close();
-
+                PrintWriter out = response.getWriter();
+                out.print(jsonArray);
+                out.flush();
             } catch (SQLException e) {
                 e.printStackTrace();
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -199,7 +203,7 @@ public class PedidoServlet extends HttpServlet {
 
         // Delete the corresponding Pedido object from the database
         try {
-            Pedido pedido = pedidoDao.buscarPorId(id);
+            PedidoView pedido = pedidoDao.buscarPorId(id);
             if (pedido == null) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Pedido no encontrado");
                 return;

@@ -1,6 +1,7 @@
 package dao;
 
 import model.Pedido;
+import model.viewModel.PedidoView;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -15,36 +16,38 @@ public class PedidoDAO {
     public PedidoDAO(Connection con) {
         this.con = con;
     }
-    public List<Pedido> listar() throws SQLException {
-        List<Pedido> pedidos = new ArrayList<>();
-        String sql = "SELECT id, id_cliente, fecha, total, estado FROM pedidos";
+    public List<PedidoView> listar() throws SQLException {
+        List<PedidoView> pedidos = new ArrayList<>();
+        String sql = "SELECT p.id, id_cliente, nombre, fecha, total, estado FROM pedidos p INNER JOIN clientes c on c.id = p.id_cliente;";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     int id = rs.getInt("id");
                     int idCliente = rs.getInt("id_cliente");
+                    String nombre = rs.getString("nombre");
                     Date fecha = rs.getDate("fecha");
                     BigDecimal total = rs.getBigDecimal("total");
                     String estado = rs.getString("estado");
-                    Pedido p = new Pedido(id, idCliente, fecha, total, estado);
+                    PedidoView p = new PedidoView(id, idCliente, nombre, fecha, total, estado);
                     pedidos.add(p);
                 }
             }
         }
         return pedidos;
     }
-    public Pedido buscarPorId(int id) throws SQLException {
-        Pedido pedido = null;
-        String sql = "SELECT id, id_cliente, fecha, total, estado FROM pedidos WHERE id = ?";
+    public PedidoView buscarPorId(int id) throws SQLException {
+        PedidoView pedido = null;
+        String sql = "SELECT p.id, id_cliente, nombre, fecha, total, estado FROM pedidos p INNER JOIN clientes c on c.id = p.id_cliente WHERE p.id = ?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     int idCliente = rs.getInt("id_cliente");
+                    String nombre = rs.getString("nombre");
                     Date fecha = rs.getDate("fecha");
                     BigDecimal total = rs.getBigDecimal("total");
                     String estado = rs.getString("estado");
-                    pedido = new Pedido(id, idCliente, fecha, total, estado);
+                    pedido = new PedidoView(id, idCliente, nombre, fecha, total, estado);
                 }
             }
         }
