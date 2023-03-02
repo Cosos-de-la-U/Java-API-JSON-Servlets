@@ -10,10 +10,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d99be413-3c06-42cb-b9df-4c47ca43c5bd" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/viewModel/PedidoView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/PedidoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/PedidoDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/PedidoServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/PedidoServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/util/Conexion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/util/Conexion.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -192,6 +191,11 @@
       <workItem from="1677455229724" duration="3050000" />
       <workItem from="1677470141902" duration="2264000" />
       <workItem from="1677525122030" duration="607000" />
+      <workItem from="1677560364939" duration="1250000" />
+      <workItem from="1677614816301" duration="687000" />
+      <workItem from="1677697903469" duration="979000" />
+      <workItem from="1677705772665" duration="638000" />
+      <workItem from="1677740078067" duration="2979000" />
     </task>
     <servers />
   </component>
